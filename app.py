@@ -398,4 +398,10 @@ if __name__ == '__main__':
     # Initialize DB at startup (works in Flask 2 and 3)
     with app.app_context():
         init_db()
-    app.run(debug=True)
+    
+    # Get port from environment (Render sets this automatically)
+    port = int(os.environ.get('PORT', 5000))
+    
+    # Bind to 0.0.0.0 so Render can detect the app
+    # Debug mode off in production
+    app.run(host='0.0.0.0', port=port, debug=False)
