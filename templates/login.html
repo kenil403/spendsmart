@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3">Login</h4>
+        <form method="post" action="/login" id="loginForm">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" name="email" required 
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                   title="Please enter a valid email address">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input class="form-control" type="password" name="password" id="loginPassword" required minlength="6">
+              <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('loginPassword', this)">
+                <i class="bi bi-eye" id="loginPassword-icon"></i>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Login</button>
+          <a class="btn btn-link" href="/signup">Create an account</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'layout.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Dashboard</h2>
+
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="card metric-card">
+        <div class="card-body">
+          <div class="metric-label">Total Budget</div>
+          <div class="metric-value">{{ total_budget|inr }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card metric-card">
+        <div class="card-body">
+          <div class="metric-label">Spent (This Month)</div>
+          <div class="metric-value">{{ total_spent|inr }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card metric-card">
+        <div class="card-body">
+          <div class="metric-label">Remaining</div>
+          <div class="metric-value">{{ remaining|inr }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card metric-card">
+        <div class="card-body">
+          <div class="metric-label">Projected EOM Spend</div>
+          <div class="metric-value {{ 'text-danger' if projected_eom_spend>total_budget else 'text-success' }}">{{ projected_eom_spend|inr }}</div>
+          <div class="small text-muted">{{ days_passed }} / {{ days_in_month }} days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1">
+    <div class="col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="card-subtitle text-muted mb-2">Spending by Category</h6>
+          <div class="chart-wrapper">
+            <canvas id="spendChart" height="240"></canvas>
+            <div class="chart-center-label">
+              <div class="center-top">Spent</div>
+              <div class="center-main">{{ total_spent|inr }}</div>
+            </div>
+          </div>
+          <script type="application/json" id="chart-data">{{ {
+            'labels': labels,
+            'values': values
+          } | tojson }}</script>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column">
+          <h6 class="card-subtitle text-muted mb-2">Highlights</h6>
+          <ul class="list-group list-group-flush flex-grow-1">
+            <li class="list-group-item">Top category: <strong>{{ top_category or '—' }}</strong></li>
+            <li class="list-group-item">Daily budget: <strong>{{ daily_budget|inr }}</strong> &nbsp;|&nbsp; Avg spend/day: <strong class="{{ 'text-danger' if burn_variance>0 else 'text-success' }}">{{ daily_spend_avg|inr }}</strong></li>
+            {% if risk_categories and risk_categories|length>0 %}
+              <li class="list-group-item">
+                At risk: 
+                <ul class="mb-0 mt-1">
+                  {% for r in risk_categories %}
+                    <li><strong>{{ r.name }}</strong>: {{ r.spent|inr }} / {{ r.budget|inr }} (expected {{ r.expected_to_date|inr }})</li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% else %}
+              <li class="list-group-item">No categories at risk. ✅</li>
+            {% endif %}
+            {% if top3 and top3|length>0 %}
+              <li class="list-group-item">Top 3 this month:
+                <ol class="mb-0 mt-1">
+                  {% for t in top3 %}
+                    <li>{{ t.name }} — {{ t.spent|inr }}</li>
+                  {% endfor %}
+                </ol>
+              </li>
+            {% endif %}
+          </ul>
+          <small class="text-muted mt-2">Monthly view based on expenses dated this month.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const ctx = document.getElementById('spendChart');
+    const dataEl = document.getElementById('chart-data');
+    if (!ctx || !dataEl) return;
+    if (typeof Chart === 'undefined') return;
+    let data;
+    try { data = JSON.parse(dataEl.textContent); } catch (_) { return; }
+    const palette = ['#4e79a7','#f28e2b','#e15759','#76b7b2','#59a14f','#edc949','#af7aa1','#ff9da7','#9c755f','#bab0ab'];
+    const colors = data.labels.map((_,i)=>palette[i % palette.length]);
+    // Doughnut chart
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: data.labels,
+        datasets: [{
+          data: data.values,
+          backgroundColor: colors,
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+  })();
+</script>
+{% endblock %}

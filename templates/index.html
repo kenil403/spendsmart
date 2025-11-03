@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h4>Overview</h4>
+  <p>Total budget: <strong>{{ total_budget|inr }}</strong> &nbsp; Total spent: <strong>{{ total_spent|inr }}</strong></p>
+    <div class="row">
+      {% for name, data in per_category.items() %}
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ name }}</h5>
+            <p>Budget: {{ data.budget|inr }} — Spent: {{ data.spent|inr }}</p>
+            <div class="progress">
+              {% set pct = (data.spent / (data.budget or 1.0)) * 100 %}
+              {# Avoid inline Jinja in style to silence editor CSS lint; set width via data attribute #}
+              <div class="progress-bar js-width" role="progressbar" data-width="{{ '%.0f'|format(pct if pct<=100 else 100) }}">{{ '%.0f'|format(pct) }}%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h5>Recent expenses</h5>
+    <ul class="list-group">
+      {% for e in expenses_recent %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ e.category.name }}</strong><br>
+          <small>{{ e.description }}</small>
+        </div>
+        <div class="text-end">
+          <div>{{ e.amount|inr }}</div>
+          <small>{{ e.date.strftime('%Y-%m-%d') }}</small>
+        </div>
+      </li>
+      {% else %}
+      <li class="list-group-item">No expenses yet.</li>
+      {% endfor %}
+    </ul>
+    <a class="btn btn-sm btn-primary mt-3" href="/add">Add expense</a>
+  </div>
+</div>
+{% endblock %}
