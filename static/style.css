@@ -1,0 +1,43 @@
+/* Theming: non-white, calm pastel gradient with soft radial accents */
+body {
+	padding-bottom: 40px;
+	background:
+		radial-gradient(1200px 600px at -10% -10%, #e9f5ff 0%, transparent 60%),
+		radial-gradient(800px 400px at 110% 10%, #f3e8ff 0%, transparent 60%),
+		linear-gradient(180deg, #ecf3ff 0%, #f5ecff 100%);
+}
+.table td, .table th { vertical-align: middle; }
+.progress { height: 22px; }
+.progress-bar { min-width: 40px; }
+/* Hide embedded JSON/data holders used by templates */
+#chart-data { display: none; }
+
+.card { border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-radius: 12px; }
+.navbar { box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.btn-primary { background: #4e79a7; border-color: #4e79a7; }
+.btn-primary:hover { background: #3d6186; border-color: #3d6186; }
+
+/* Icon button tweaks */
+.btn-icon { display: inline-flex; align-items: center; gap: .35rem; }
+
+/* Dashboard metric cards */
+.metric-card .metric-label {
+	font-size: .8rem;
+	color: #6c757d;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+}
+.metric-card .metric-value {
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+/* Doughnut chart center label */
+.chart-wrapper { position: relative; height: 260px; }
+.chart-center-label {
+	position: absolute;
+	top: 50%; left: 50%; transform: translate(-50%, -50%);
+	text-align: center; pointer-events: none;
+}
+.chart-center-label .center-top { font-size: .75rem; color: #6c757d; }
+.chart-center-label .center-main { font-weight: 700; }

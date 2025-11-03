@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block title %}Edit Expense{% endblock %}
+{% block content %}
+<h4>Edit Expense</h4>
+<form method="post" action="/edit/{{ expense.id }}">
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <input class="form-control" name="description" value="{{ expense.description }}">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Amount</label>
+    <input class="form-control" name="amount" type="number" step="0.01" value="{{ expense.amount }}" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Category</label>
+    <select class="form-select" name="category" required>
+      {% for c in categories %}
+        <option value="{{ c.id }}" {% if c.id == expense.category_id %}selected{% endif %}>{{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Date</label>
+    <input class="form-control" name="date" type="date" value="{{ expense.date.strftime('%Y-%m-%d') }}">
+  </div>
+  <button class="btn btn-primary" type="submit">Save</button>
+  <form method="post" action="/delete/{{ expense.id }}" style="display:inline-block" onsubmit="return confirm('Delete this expense?');">
+    <button class="btn btn-outline-danger btn-icon" title="Delete">
+      <i class="bi bi-trash"></i> Delete
+    </button>
+  </form>
+</form>
+{% endblock %}

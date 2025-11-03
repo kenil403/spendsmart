@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3">Create your account</h4>
+        <form method="post" action="/signup" id="signupForm">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" name="email" id="signupEmail" required
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                   title="Please enter a valid email address (e.g., user@example.com)">
+            <div class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input class="form-control" type="password" name="password" id="signupPassword" required minlength="6"
+                     title="Password must be at least 6 characters">
+              <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('signupPassword', this)">
+                <i class="bi bi-eye" id="signupPassword-icon"></i>
+              </button>
+            </div>
+            <div class="form-text">Minimum 6 characters</div>
+          </div>
+          <button class="btn btn-primary" type="submit">Sign Up</button>
+          <a class="btn btn-link" href="/login">Already have an account?</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

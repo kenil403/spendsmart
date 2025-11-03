@@ -1,0 +1,21 @@
+# 💰 SpendSmart – Smart Way to Manage Expenses
+
+## 🧾 Project Overview
+
+**SpendSmart** is a simple yet effective **budget tracking web application** built using **Python Flask**.
+It helps users manage their daily expenses, stay within budget limits, and visualize their spending patterns through an easy-to-use dashboard.
+
+The main goal of this project is to help users become more aware of their financial habits and make smarter spending decisions.
+
+---
+
+## 🎯 **Key Features**
+
+✅ **Add Expenses** – Enter amount, category, and description of your daily expenses
+✅ **Categorize Spending** – Organize expenses under categories like Food, Rent, Shopping, etc.
+✅ **Track Budget vs Spent** – See how much you’ve spent compared to your monthly budget
+✅ **Visual Dashboard** – Pie charts show where your money goes
+✅ **Monthly Summary** – Overview of all spending in a selected month
+✅ **Edit/Delete** – Manage or correct added expenses easily
+
+---

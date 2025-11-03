@@ -1,3 +1,56 @@
+<<<<<<< HEAD
+# Python
+*.pyc
+*.py[cod]
+*$py.class
+__pycache__/
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Database (don't commit user data)
+*.db
+*.sqlite
+*.sqlite3
+spendsmart.db
+
+# Environment variables
+.env
+.env.local
+.spendsmart.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Flask
+instance/
+.webassets-cache
+=======
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -205,3 +258,4 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+>>>>>>> 3b63b1ebc10f85d0ba4864dedd4128e6b4caaf6b
