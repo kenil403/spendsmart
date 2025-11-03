@@ -8,11 +8,13 @@ import calendar
 import os
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SPENDSMART_SECRET', 'dev-secret')
+# Use SECRET_KEY from environment (Render auto-generates this)
+app.secret_key = os.environ.get('SECRET_KEY', os.environ.get('SPENDSMART_SECRET', 'dev-secret-change-in-production'))
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, 'spendsmart.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+# Support DATABASE_URL for PostgreSQL or fallback to SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///' + db_path)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
